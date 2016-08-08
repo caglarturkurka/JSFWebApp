@@ -5,8 +5,10 @@
  */
 package controller;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import services.LoginService;
 
 /**
  *
@@ -23,14 +25,16 @@ public class LoginController {
     private String username;
     private String password;
     
-    public LoginController() {
-    }
+    private LoginService loginService= new LoginService();;
     
+    public LoginController() {   
+    }
     public String loginProcess(){
-        if(this.password.equals("1234") && this.username.equals("admin")){
-            return "success?faces-redirect=true";
+        boolean result = loginService.checkUser(username, password);
+        if(result){
+            return "success?faces-redirect=false";
         }else{
-            return "error?faces-redirect=true";
+            return "error?faces-redirect=false";
         }
     }
 
